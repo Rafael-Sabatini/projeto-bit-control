@@ -1,0 +1,32 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  position: relative;
+  background: white;
+  padding: 20px;
+  border-radius: 4px;
+  outline: none;
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+  transform: scale(0.9);
+  opacity: 0;
+}
+
+.ReactModal__Content--after-open {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.ReactModal__Content--before-close {
+  transform: scale(0.9);
+  opacity: 0;
+}

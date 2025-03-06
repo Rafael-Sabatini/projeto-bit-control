@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+*:focus {
+  outline: none;
+}
+
+.modal-content {
+  background: linear-gradient(90deg, #ffc107 0%, #ff9800 100%);
+}

@@ -1,0 +1,7 @@
+/* Só para ficar a mesma cor do bg, não é possível controlar com Tailwind essa parte */
+.modal-content {
+  background: linear-gradient(to bottom, #111827, #1f2937);
+  opacity: 0.94;
+  width: fit-content;
+  border-radius: 13px;
+}

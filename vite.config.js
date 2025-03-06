@@ -4,6 +4,6 @@ import tailwindcss from "@tailwindcss/vite";
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: "/bit-control/",
+  base: "/projeto-bit-control/",
   plugins: [react(), tailwindcss()],
 });

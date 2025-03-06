@@ -16,37 +16,37 @@ const Cadastro = () => {
     let isValid = true;
 
     if (newUserName === "") {
-      toast.error("Informe o seu nome de usuário!");
+      toast.error("Informe o seu nome de usuário!", {containerId:"validacao-usuario"});
       isValid = false;
       return;
     }
 
     if (newUserEmail === "") {
-      toast.error("Informe um e-mail!");
+      toast.error("Informe um e-mail!", {containerId:"validacao-usuario"});
       isValid = false;
       return;
     }
 
     if (newUserPassword === "") {
-      toast.error("Senha não pode ser vazia!");
+      toast.error("Senha não pode ser vazia!", {containerId:"validacao-usuario"});
       isValid = false;
       return;
     } else if (newUserPassword.length < 8) {
-      toast.error("Senha deve ter no mínimo 8 caracteres!");
+      toast.error("Senha deve ter no mínimo 8 caracteres!", {containerId:"validacao-usuario"});
       isValid = false;
       return;
     } else if (newUserPassword.includes(" ")) {
-      toast.error("Senha não pode conter espaços!");
+      toast.error("Senha não pode conter espaços!", {containerId:"validacao-usuario"});
       isValid = false;
       return;
     }
 
     if (newUserConfirmPassword === "") {
-      toast.error("Confirme a Senha não pode ser vazia!");
+      toast.error("Confirme a Senha não pode ser vazia!", {containerId:"validacao-usuario"});
       isValid = false;
       return;
     } else if (newUserPassword !== newUserConfirmPassword) {
-      toast.error("Senhas não conferem!");
+      toast.error("Senhas não conferem!", {containerId:"validacao-usuario"});
       isValid = false;
       return;
     }
@@ -59,12 +59,13 @@ const Cadastro = () => {
   const saveUser = () => {
     try {
       //TODO: Código para método POST para API
-      toast.success("Usuário cadastrado com sucesso!");
+      toast.success("Usuário cadastrado com sucesso!", {containerId:"validacao-usuario"});
       setTimeout(() => {
         window.location.reload();
       }, 3700);
     } catch (error) {
-      toast.error("Erro ao cadastrar usuário!");
+      toast.error("Erro ao cadastrar usuário!", {containerId:"validacao-usuario"});
+      return error;
     }
   };
 
@@ -137,6 +138,7 @@ const Cadastro = () => {
         draggable
         pauseOnHover={false}
         theme="colored"
+        containerId={"validacao-cadastro"}
       />
     </div>
   );

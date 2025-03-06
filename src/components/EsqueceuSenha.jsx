@@ -7,20 +7,19 @@ const EsqueceuSenha = () => {
     const form = e.target;
     const formData = new FormData(form);
     const email = formData.get("email");
-    email === "" ? toast.error("Favor digitar um endereço de e-mail") : null;
-    sendEmail(email);
+    email === "" ? toast.error("Favor digitar um endereço de e-mail", {containerId:"validacao-senha"}) : sendEmail(email);;    
   }
 
   const sendEmail = (email) => {
     try {
       // TODO: Código de enviar método para API
-      toast.success("E-mail de redefinição enviado!");
+      toast.success("E-mail de redefinição enviado!", {containerId:"validacao-senha"});
       setTimeout(() => {
         window.location.reload();
         return email;
       }, 3700);
     } catch (error) {
-      toast.error("Erro ao enviar e-mail")
+      toast.error("Erro ao enviar e-mail", {containerId:"validacao-senha"})
       return error;
     }
   };
@@ -68,6 +67,7 @@ const EsqueceuSenha = () => {
         draggable
         pauseOnHover={false}
         theme="colored"
+        containerId={"validacao-senha"}
       />
     </div>
   );

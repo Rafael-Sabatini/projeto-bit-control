@@ -27,7 +27,7 @@ function App() {
     const loginPass = formData.get("loginPass");
 
     if (loginUser === "" && loginPass === "") {
-      toast.error("Preencha todos os campos");
+      toast.error("Preencha todos os campos", {containerId:"validacao-usuario"});
       return;
     } else {
       login();
@@ -38,7 +38,7 @@ function App() {
     try {
       setIsLoggedIn(true);
     } catch (error) {
-      toast.error("Usuário ou senha inválidos");
+      toast.error("Usuário ou senha inválidos", {containerId:"validacao-usuario"});
       return error;
     }
   };
@@ -116,6 +116,8 @@ function App() {
         draggable
         pauseOnHover={false}
         theme="colored"
+        containerId="validacao-usuario"
+        stacked={true}
       />
     </>
   );

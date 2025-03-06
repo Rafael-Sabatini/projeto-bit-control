@@ -17,6 +17,7 @@ const ModalComponent = ({ isOpen, onRequestClose, children }) => {
       <button
         className="fixed top-2 right-2 text-red-500 text-4xl h-9 w-9 hover:scale-110 active:scale-95 cursor-pointer transition-all duration-200 rounded-md"
         onClick={onRequestClose}
+        data-testid="botaoFecharModal"
       >
         x
       </button>

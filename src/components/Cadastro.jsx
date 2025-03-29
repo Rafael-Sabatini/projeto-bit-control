@@ -56,18 +56,44 @@ const Cadastro = () => {
     }
   }
 
-  const saveUser = () => {
-    try {
-      //TODO: Código para método POST para API
-      toast.success("Usuário cadastrado com sucesso!", {containerId:"validacao-usuario"});
-      setTimeout(() => {
-        window.location.reload();
-      }, 3700);
-    } catch (error) {
-      toast.error("Erro ao cadastrar usuário!", {containerId:"validacao-usuario"});
-      return error;
+const saveUser = async () => {
+  try {
+    const form = document.querySelector('[data-testid="newUserForm"]');
+    const formDataObj = new FormData(form);
+    
+    const userData = {
+      nome: formDataObj.get("newUserName"),
+      email: formDataObj.get("newUserEmail"),
+      senha: formDataObj.get("newUserPassword"),
+      telefone: formDataObj.get("newUserPhoneNumber") || null
+    };
+
+    const response = await fetch("https://primeiroprojetoequipeservidor.onrender.com/usuarios/cadastrar", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      mode: 'cors',
+      credentials: 'omit', // Changed from 'include' to 'omit'
+      body: JSON.stringify(userData)
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Falha ao cadastrar usuário');
     }
-  };
+
+    toast.success("Usuário cadastrado com sucesso!", {containerId:"validacao-cadastro"});
+    
+    setTimeout(() => {
+      window.location.reload();
+    }, 3700);
+
+  } catch (error) {
+    console.error('Erro:', error);
+    toast.error(error.message || "Erro ao cadastrar usuário!", {containerId:"validacao-cadastro"});
+  }
+};
 
   return (
     <div

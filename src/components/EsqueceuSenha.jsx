@@ -10,19 +10,35 @@ const EsqueceuSenha = () => {
     email === "" ? toast.error("Favor digitar um endereço de e-mail", {containerId:"validacao-senha"}) : sendEmail(email);;    
   }
 
-  const sendEmail = (email) => {
-    try {
-      // TODO: Código de enviar método para API
-      toast.success("E-mail de redefinição enviado!", {containerId:"validacao-senha"});
-      setTimeout(() => {
-        window.location.reload();
-        return email;
-      }, 3700);
-    } catch (error) {
-      toast.error("Erro ao enviar e-mail", {containerId:"validacao-senha"})
-      return error;
+const sendEmail = async (email) => {
+  try {
+    const response = await fetch("https://primeiroprojetoequipeservidor.onrender.com/recuperar-senha", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      mode: 'cors',
+      credentials: 'omit',
+      body: JSON.stringify({ email: email })
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Falha ao enviar e-mail de recuperação');
     }
-  };
+
+    toast.success("E-mail de redefinição enviado!", {containerId:"validacao-senha"});
+    
+    setTimeout(() => {
+      window.location.reload();
+    }, 3700);
+
+  } catch (error) {
+    console.error('Erro:', error);
+    toast.error(error.message || "Erro ao enviar e-mail", {containerId:"validacao-senha"});
+    return error;
+  }
+};
 
   return (
     <div className="flex flex-col justify-center items-center">

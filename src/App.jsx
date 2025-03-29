@@ -19,7 +19,7 @@ function App() {
     setComponent(null);
   };
 
-  function validateUser(e) {
+  async function validateUser(e) {
     e.preventDefault();
     const form = e.target;
     const formData = new FormData(form);
@@ -27,18 +27,51 @@ function App() {
     const loginPass = formData.get("loginPass");
 
     if (loginUser === "" && loginPass === "") {
-      toast.error("Preencha todos os campos", {containerId:"validacao-usuario"});
+      toast.error("Preencha todos os campos", {
+        containerId: "validacao-usuario",
+      });
       return;
     } else {
-      login();
+      await login(formData);
     }
   }
 
-  const login = () => {
+  const login = async (formData) => {
     try {
+      const loginData = {
+        email: formData.get("loginUser"),
+        senha: formData.get("loginPass"),
+      };
+
+      const response = await fetch(
+        "https://primeiroprojetoequipeservidor.onrender.com/usuarios/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          mode: "cors",
+          credentials: "omit",
+          body: JSON.stringify(loginData),
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Credenciais inválidas");
+      }
+
+      const userData = await response.json();
+      // Store user data or token if needed
       setIsLoggedIn(true);
+      toast.success("Login realizado com sucesso!", {
+        containerId: "validacao-usuario",
+      });
     } catch (error) {
-      toast.error("Usuário ou senha inválidos", {containerId:"validacao-usuario"});
+      console.error("Erro:", error);
+      toast.error(error.message || "Usuário ou senha inválidos", {
+        containerId: "validacao-usuario",
+      });
       return error;
     }
   };

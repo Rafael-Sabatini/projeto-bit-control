@@ -60,38 +60,58 @@ const saveUser = async () => {
   try {
     const form = document.querySelector('[data-testid="newUserForm"]');
     const formDataObj = new FormData(form);
-    
+
     const userData = {
-      nome: formDataObj.get("newUserName"),
+      nomeUsuario: formDataObj.get("newUserName"),
       email: formDataObj.get("newUserEmail"),
       senha: formDataObj.get("newUserPassword"),
-      telefone: formDataObj.get("newUserPhoneNumber") || null
+      telefone: formDataObj.get("newUserPhoneNumber") || null,
     };
 
-    const response = await fetch("https://primeiroprojetoequipeservidor.onrender.com/usuarios/cadastrar", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      mode: 'cors',
-      credentials: 'omit', // Changed from 'include' to 'omit'
-      body: JSON.stringify(userData)
-    });
+    console.log("Sending user data:", userData); // Debug log
+
+    const response = await fetch(
+      "https://primeiroprojetoequipeservidor.onrender.com/usuarios/cadastrar",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        mode: "cors",
+        credentials: "omit",
+        body: JSON.stringify(userData),
+      }
+    );
+
+    const data = await response.json();
 
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || 'Falha ao cadastrar usuário');
+      if (response.status === 409) {
+        throw new Error("Email já cadastrado");
+      } else if (response.status === 400) {
+        throw new Error(data.message || "Dados inválidos");
+      } else {
+        throw new Error(
+          data.message || `Erro ${response.status}: Falha ao cadastrar usuário`
+        );
+      }
     }
 
-    toast.success("Usuário cadastrado com sucesso!", {containerId:"validacao-cadastro"});
-    
+    toast.success("Usuário cadastrado com sucesso!", {
+      containerId: "validacao-cadastro",
+    });
+
     setTimeout(() => {
       window.location.reload();
     }, 3700);
-
   } catch (error) {
-    console.error('Erro:', error);
-    toast.error(error.message || "Erro ao cadastrar usuário!", {containerId:"validacao-cadastro"});
+    console.error("Erro detalhado:", {
+      message: error.message,
+      stack: error.stack,
+    });
+    toast.error(error.message || "Erro ao cadastrar usuário!", {
+      containerId: "validacao-cadastro",
+    });
   }
 };
 
